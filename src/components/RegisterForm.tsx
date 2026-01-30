@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Input } from "./Input";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { ContactFormData, ErrorState } from "@/schemas/contact";
+import { ContactFormData, contactSchema, ErrorState } from "@/schemas/contact";
 import { z } from "zod";
 
 export function RegisterForm() {
@@ -18,20 +18,8 @@ export function RegisterForm() {
     email: null,
     password: null,
     confirmPassword: null,
-    general: null,
+    general: "null",
   });
-
-  const registerSchema = z
-    .object({
-      username: z.string().min(3, "Username must be at least 3 characters"),
-      email: z.email("Invalid email address"),
-      password: z.string().min(4, "Password must be at least 4 characters"),
-      confirmPassword: z.string(),
-    })
-    .refine((formData) => formData.password === formData.confirmPassword, {
-      message: "Passwords do not match",
-      path: ["confirmPassword"],
-    });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,11 +29,11 @@ export function RegisterForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const result = registerSchema.safeParse(formData);
+    const result = contactSchema.safeParse(formData);
 
     if (!result.success) {
       const flattened = z.flattenError(result.error);
-      const fieldErrors = flattened.fieldErrors; // не до конца понял что это делает
+      const fieldErrors = flattened.fieldErrors;
 
       setErrors({
         username: fieldErrors.username?.[0] ?? null,
@@ -135,6 +123,11 @@ export function RegisterForm() {
               error={errors.confirmPassword}
             />
           </label>
+          {errors.general && (
+            <span className="text-red-600 text-xs col-span-2">
+              {errors.general}
+            </span>
+          )}
           <button className="rounded-2xl bg-primary border border-transparent xl:hover:border-primary xl:hover:bg-transparent xl:hover:text-primary transition-all duration-300 p-3 col-span-2 font-medium cursor-pointer">
             Sign Up
           </button>
