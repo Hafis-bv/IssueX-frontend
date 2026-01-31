@@ -2,9 +2,7 @@ import { z } from "zod";
 
 export const contactSchema = z
   .object({
-    username: z
-      .string()
-      .min(3, "Username must be at least 3 or more characters"),
+    name: z.string().min(3, "Username must be at least 3 or more characters"),
     email: z.email("Invalid email"),
     password: z
       .string()
@@ -19,7 +17,7 @@ export const contactSchema = z
 export type ContactFormData = z.infer<typeof contactSchema>;
 
 export type ErrorState = {
-  username: string | null;
+  name: string | null;
   email: string | null;
   password: string | null;
   confirmPassword: string | null;

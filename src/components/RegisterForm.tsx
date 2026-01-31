@@ -5,21 +5,25 @@ import { Input } from "./Input";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { ContactFormData, contactSchema, ErrorState } from "@/schemas/contact";
 import { z } from "zod";
+import API from "@/utils/api";
+import { useRouter } from "next/navigation";
 
 export function RegisterForm() {
   const [formData, setFormData] = useState<ContactFormData>({
-    username: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<ErrorState>({
-    username: null,
+    name: null,
     email: null,
     password: null,
     confirmPassword: null,
-    general: "null",
+    general: null,
   });
+
+  const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,7 +40,7 @@ export function RegisterForm() {
       const fieldErrors = flattened.fieldErrors;
 
       setErrors({
-        username: fieldErrors.username?.[0] ?? null,
+        name: fieldErrors.name?.[0] ?? null,
         email: fieldErrors.email?.[0] ?? null,
         password: fieldErrors.password?.[0] ?? null,
         confirmPassword: fieldErrors.confirmPassword?.[0] ?? null,
@@ -44,11 +48,14 @@ export function RegisterForm() {
       });
       return;
     }
+
+    try {
+      const response = await API.handleRegister(formData);
+      router.push("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
-  try {
-  } catch (err) {
-    console.log(err);
-  }
   return (
     <div className="grid xl:grid-cols-2 h-screen">
       <div className="bg-primary/80"></div>
@@ -65,17 +72,17 @@ export function RegisterForm() {
         >
           <label
             className="flex text-left col-span-2 sm:col-span-1 flex-col gap-2"
-            htmlFor="username"
+            htmlFor="name"
           >
             <span className="font-semibold">Username</span>
             <Input
-              name="username"
-              value={formData.username}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               type="text"
-              id="username"
+              id="name"
               placeholder="Enter username"
-              error={errors.username}
+              error={errors.name}
             />
           </label>
           <label
