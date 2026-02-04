@@ -7,6 +7,7 @@ import { ContactFormData, contactSchema, ErrorState } from "@/schemas/contact";
 import { z } from "zod";
 import API from "@/utils/api";
 import { useRouter } from "next/navigation";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export function RegisterForm() {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -22,6 +23,8 @@ export function RegisterForm() {
     confirmPassword: null,
     general: null,
   });
+
+  const [show, setShow] = useState(false);
 
   const router = useRouter();
 
@@ -105,15 +108,23 @@ export function RegisterForm() {
             htmlFor="password"
           >
             <span className="font-semibold">Password</span>
-            <Input
-              value={formData.password}
-              onChange={handleChange}
-              name="password"
-              type="password"
-              id="password"
-              placeholder="Enter your password"
-              error={errors.password}
-            />
+            <div className="relative">
+              <Input
+                value={formData.password}
+                onChange={handleChange}
+                name="password"
+                type={show ? "text" : "password"}
+                id="password"
+                placeholder="Enter your password"
+                error={errors.password}
+              />
+              <span
+                onClick={() => setShow(!show)}
+                className="absolute top-1/2 -translate-y-1/2 right-4 hover:bg-[#363a44] transition-all duration-300 p-2 rounded-lg cursor-pointer"
+              >
+                {show ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+              </span>
+            </div>
           </label>
           <label
             className="flex text-left flex-col gap-2 col-span-2"
