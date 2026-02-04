@@ -25,6 +25,16 @@ class Api {
       console.log(err);
     }
   }
+
+  async handleMe() {
+    try {
+      const res = await this.client.get("/auth/me", { withCredentials: true });
+
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 const API = new Api();
