@@ -1,4 +1,5 @@
 import { ContactFormData } from "@/schemas/contact";
+import { LoginFormData } from "@/schemas/login";
 import axios, { AxiosInstance } from "axios";
 
 class Api {
@@ -18,6 +19,17 @@ class Api {
   async handleRegister(body: ContactFormData) {
     try {
       const res = await this.client.post(`/auth/register`, body, {
+        withCredentials: true,
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async handleLogin(body: LoginFormData) {
+    try {
+      const res = await this.client.post(`/auth/login`, body, {
         withCredentials: true,
       });
       return res.data;

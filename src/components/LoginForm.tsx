@@ -1,31 +1,26 @@
 "use client";
 
-import Link from "next/link";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Input } from "./Input";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { ContactFormData, contactSchema, ErrorState } from "@/schemas/contact";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { ErrorLoginState, LoginFormData, loginSchema } from "@/schemas/login";
 import { z } from "zod";
 import API from "@/utils/api";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-export function RegisterForm() {
-  const [formData, setFormData] = useState<ContactFormData>({
-    name: "",
+export function LoginForm() {
+  const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
-    confirmPassword: "",
   });
-  const [errors, setErrors] = useState<ErrorState>({
-    name: null,
+  const [errors, setErrors] = useState<ErrorLoginState>({
     email: null,
     password: null,
-    confirmPassword: null,
     general: null,
   });
 
   const router = useRouter();
-  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,17 +31,15 @@ export function RegisterForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const result = contactSchema.safeParse(formData);
+    const result = loginSchema.safeParse(formData);
 
     if (!result.success) {
       const flattened = z.flattenError(result.error);
       const fieldErrors = flattened.fieldErrors;
 
       setErrors({
-        name: fieldErrors.name?.[0] ?? null,
         email: fieldErrors.email?.[0] ?? null,
         password: fieldErrors.password?.[0] ?? null,
-        confirmPassword: fieldErrors.confirmPassword?.[0] ?? null,
         general: null,
       });
       return;
@@ -55,45 +48,33 @@ export function RegisterForm() {
     setLoading(true);
 
     try {
-      const response = await API.handleRegister(formData);
-      router.push("/");
+      const response = await API.handleLogin(formData);
     } catch (err: any) {
       console.log(err);
+      setErrors({ ...errors, general: err.response.data.message });
     } finally {
       setLoading(false);
+      console.log(errors);
     }
   };
+
+  const [show, setShow] = useState(false);
   return (
     <div className="grid xl:grid-cols-2 h-screen">
       <div className="bg-primary/80"></div>
       <div className="flex flex-col items-center text-center gap-4 py-40 xl:px-0">
         <h1 className="text-4xl font-semibold tracking-[2px]">
-          Sign Up An Account
+          Sign In to Account
         </h1>
         <p className="text-gray-400 text-lg font-medium">
-          Enter personal data to create your account
+          Enter your credentials to access your account
         </p>
         <form
           onSubmit={handleSubmit}
           className="grid grid-cols-2 gap-6 sm:w-150 w-[90%] mt-8"
         >
           <label
-            className="flex text-left col-span-2 sm:col-span-1 flex-col gap-2"
-            htmlFor="name"
-          >
-            <span className="font-semibold">Username</span>
-            <Input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              type="text"
-              id="name"
-              placeholder="Enter username"
-              error={errors.name}
-            />
-          </label>
-          <label
-            className="flex text-left col-span-2 sm:col-span-1 flex-col gap-2"
+            className="flex text-left col-span-2 flex-col gap-2"
             htmlFor="email"
           >
             <span className="font-semibold">Email</span>
@@ -130,36 +111,24 @@ export function RegisterForm() {
               </span>
             </div>
           </label>
-          <label
-            className="flex text-left flex-col gap-2 col-span-2"
-            htmlFor="confirmPassword"
-          >
-            <span className="font-semibold">Confirm password</span>
-            <Input
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              name="confirmPassword"
-              type="password"
-              id="confirmPassword"
-              placeholder="Confirm your password"
-              error={errors.confirmPassword}
-            />
-          </label>
           <button
             disabled={loading}
             className="rounded-2xl bg-primary border border-transparent xl:hover:border-primary xl:hover:bg-transparent xl:hover:text-primary transition-all duration-300 p-3 col-span-2 font-medium cursor-pointer"
           >
-            {loading ? "Signing up..." : "Sign Up"}
+            {loading ? "Signing in..." : "Sign In"}
           </button>
+          {errors.general && (
+            <span className="text-red-600 text-xs">{errors.general}</span>
+          )}
         </form>
         <div className="text-center mt-4">
           <p className="text-gray-400">
-            Already have an account?{" "}
+            Don't have an account?{" "}
             <Link
               className="text-white font-semibold underline"
-              href={"/login"}
+              href={"/register"}
             >
-              Log In
+              Sign Up
             </Link>
           </p>
         </div>
