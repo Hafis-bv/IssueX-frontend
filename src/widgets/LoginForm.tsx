@@ -1,13 +1,14 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Input } from "./Input";
+import { Input } from "../components/Input";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ErrorLoginState, LoginFormData, loginSchema } from "@/schemas/login";
 import { z } from "zod";
 import API from "@/utils/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/userContext";
 
 export function LoginForm() {
   const [formData, setFormData] = useState<LoginFormData>({
@@ -19,6 +20,8 @@ export function LoginForm() {
     password: null,
     general: null,
   });
+
+  const { refreshUser } = useAuth();
 
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,10 +51,17 @@ export function LoginForm() {
     setLoading(true);
 
     try {
-      const response = await API.handleLogin(formData);
+      await API.handleLogin(formData);
+      await refreshUser();
+      router.push("/");
     } catch (err: any) {
       console.log(err);
-      setErrors({ ...errors, general: err.response.data.message });
+      const message =
+        err?.response?.data?.message ||
+        err?.response?.data?.err ||
+        "Something went wrong";
+
+      setErrors({ ...errors, general: message });
     } finally {
       setLoading(false);
       console.log(errors);
@@ -111,15 +121,15 @@ export function LoginForm() {
               </span>
             </div>
           </label>
+          {errors.general && (
+            <span className="text-red-600 mr-auto">{errors.general}</span>
+          )}
           <button
             disabled={loading}
             className="rounded-2xl bg-primary border border-transparent xl:hover:border-primary xl:hover:bg-transparent xl:hover:text-primary transition-all duration-300 p-3 col-span-2 font-medium cursor-pointer"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
-          {errors.general && (
-            <span className="text-red-600 text-xs">{errors.general}</span>
-          )}
         </form>
         <div className="text-center mt-4">
           <p className="text-gray-400">

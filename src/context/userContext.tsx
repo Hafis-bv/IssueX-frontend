@@ -1,7 +1,13 @@
 "use client";
-import { createContext, ReactNode, useEffect, useState } from "react";
-import axios from "axios";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import API from "@/utils/api";
+import { CustomLoading } from "@/components/CustomLoading";
 
 interface UserProviderProps {
   children: ReactNode;
@@ -15,6 +21,7 @@ interface User {
 
 interface UserContext {
   user: User | null;
+  refreshUser: () => Promise<void>;
 }
 
 const userContext = createContext<UserContext | undefined>(undefined);
@@ -27,11 +34,12 @@ export default function UserProvider({ children }: UserProviderProps) {
     setIsLoading(true);
     try {
       const res = await API.handleMe();
-
-      console.log(res);
+      setUser(res.user);
     } catch (e) {
       console.log(e);
       setUser(null);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -39,7 +47,21 @@ export default function UserProvider({ children }: UserProviderProps) {
     refreshUser();
   }, []);
 
+  if (isLoading) {
+    return <CustomLoading />;
+  }
+
   return (
-    <userContext.Provider value={{ user }}>{children}</userContext.Provider>
+    <userContext.Provider value={{ user, refreshUser }}>
+      {children}
+    </userContext.Provider>
   );
 }
+
+export const useAuth = () => {
+  const context = useContext(userContext);
+
+  if (!context) throw new Error("useAuth must be used within a user");
+
+  return context;
+};

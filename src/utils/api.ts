@@ -24,6 +24,7 @@ class Api {
       return res.data;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   }
 
@@ -32,9 +33,11 @@ class Api {
       const res = await this.client.post(`/auth/login`, body, {
         withCredentials: true,
       });
+
       return res.data;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   }
 
@@ -45,6 +48,7 @@ class Api {
       return res.data;
     } catch (err) {
       console.log(err);
+      throw err;
     }
   }
 }

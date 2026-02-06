@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Input } from "./Input";
+import { Input } from "../components/Input";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { ContactFormData, contactSchema, ErrorState } from "@/schemas/contact";
 import { z } from "zod";
