@@ -32,7 +32,7 @@ export const Input = ({
         value={value}
         onChange={onChange}
       />
-      {error && <span className="text-red-600 text-xs">{error}</span>}
+      {error && <span className="text-red-600 text-xs mt-1">{error}</span>}
     </div>
   );
 };

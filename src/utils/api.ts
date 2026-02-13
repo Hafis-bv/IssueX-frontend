@@ -52,11 +52,15 @@ class Api {
     }
   }
 
-  async handleForgot(email: string) {
+  async handleForgotPassword(email: string) {
     try {
-      const res = await this.client.post("/auth/forgot-password", email, {
-        withCredentials: true,
-      });
+      const res = await this.client.post(
+        "/auth/forgot-password",
+        { email },
+        {
+          withCredentials: true,
+        },
+      );
 
       return res.data;
     } catch (err) {

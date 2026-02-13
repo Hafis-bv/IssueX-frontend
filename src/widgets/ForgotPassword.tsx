@@ -4,6 +4,7 @@ import { Input } from "@/components/Input";
 import API from "@/utils/api";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 interface ErrorState {
   email: string | null;
@@ -17,14 +18,14 @@ export function ForgotPassword() {
     general: null,
   });
 
-  const forgotSchema = z.object({
-    email: z.email("Invalid email"),
-  });
+  const forgotSchema = z.email("Invalid email");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setErrors({ ...errors, [e.target.name]: null });
   };
+
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,18 +34,16 @@ export function ForgotPassword() {
 
     if (!result.success) {
       const flattened = z.flattenError(result.error);
-      const fieldErrors = flattened.fieldErrors;
-
+      const fieldErrors = flattened.formErrors;
       setErrors({
-        email: fieldErrors.email?.[0] ?? null,
+        email: fieldErrors?.[0] ?? null,
         general: null,
       });
       return;
     }
 
     try {
-      await API.handleForgot(email);
-      console.log("wifhpu");
+      await API.handleForgotPassword(email);
     } catch (err: any) {
       console.log(err);
       const message =
@@ -67,7 +66,7 @@ export function ForgotPassword() {
         <Input
           placeholder="Enter email address"
           name="email"
-          type="email"
+          type="text"
           id="email"
           onChange={handleChange}
           error={errors.email}
