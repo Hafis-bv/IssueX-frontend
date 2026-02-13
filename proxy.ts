@@ -1,3 +1,25 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export function proxy(req: NextRequest) {}
+const AUTH_PAGES = [
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/reset-password",
+];
+
+export function proxy(req: NextRequest) {
+  const token = req.cookies.get("token")?.value;
+  const { pathname } = req.nextUrl;
+
+  const isAuthPage = AUTH_PAGES.some((route) => pathname.startsWith(route));
+
+  if (!token && !isAuthPage) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  if (token && isAuthPage) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  return NextResponse.next();
+}
