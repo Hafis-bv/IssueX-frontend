@@ -51,6 +51,19 @@ class Api {
       throw err;
     }
   }
+
+  async handleForgot(email: string) {
+    try {
+      const res = await this.client.post("/auth/forgot-password", email, {
+        withCredentials: true,
+      });
+
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
 }
 
 const API = new Api();
