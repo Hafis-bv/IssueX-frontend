@@ -6,6 +6,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { ContactFormData, contactSchema, ErrorState } from "@/schemas/contact";
 import { z } from "zod";
 import API from "@/utils/api";
+import { setAuthCookie } from "@/utils/auth-cookie";
 import { useRouter } from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAuth } from "@/context/userContext";
@@ -58,6 +59,7 @@ export function RegisterForm() {
 
     try {
       await API.handleRegister(formData);
+      setAuthCookie();
       await refreshUser();
       router.push("/");
     } catch (err: any) {

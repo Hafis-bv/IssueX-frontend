@@ -13,10 +13,12 @@ export function proxy(req: NextRequest) {
 
   const isAuthPage = AUTH_PAGES.some((route) => pathname.startsWith(route));
 
+  // Unauthorized: only allow auth pages; send everyone else to login
   if (!token && !isAuthPage) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
+  // Authorized: don't allow auth pages; send to home
   if (token && isAuthPage) {
     return NextResponse.redirect(new URL("/", req.url));
   }

@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import API from "@/utils/api";
+import { clearAuthCookie } from "@/utils/auth-cookie";
 import { CustomLoading } from "@/components/CustomLoading";
 
 interface UserProviderProps {
@@ -35,9 +36,13 @@ export default function UserProvider({ children }: UserProviderProps) {
     try {
       const res = await API.handleMe();
       setUser(res.user);
-    } catch (e) {
+    } catch (e: any) {
       console.log(e);
       setUser(null);
+      const status = e?.response?.status;
+      if (status === 401 || status === 403) {
+        clearAuthCookie();
+      }
     } finally {
       setIsLoading(false);
     }

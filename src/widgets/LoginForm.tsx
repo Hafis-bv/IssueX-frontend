@@ -6,6 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ErrorLoginState, LoginFormData, loginSchema } from "@/schemas/login";
 import { z } from "zod";
 import API from "@/utils/api";
+import { setAuthCookie } from "@/utils/auth-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/userContext";
@@ -52,6 +53,7 @@ export function LoginForm() {
 
     try {
       await API.handleLogin(formData);
+      setAuthCookie();
       await refreshUser();
       router.push("/");
     } catch (err: any) {
