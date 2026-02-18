@@ -150,7 +150,7 @@ export function RegisterForm() {
               value={formData.confirmPassword}
               onChange={handleChange}
               name="confirmPassword"
-              type="password"
+              type={show ? "text" : "password"}
               id="confirmPassword"
               placeholder="Confirm your password"
               error={errors.confirmPassword}

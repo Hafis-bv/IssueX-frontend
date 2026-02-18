@@ -17,6 +17,7 @@ export function ForgotPassword() {
     email: null,
     general: null,
   });
+  const [loading, setLoading] = useState(false);
 
   const forgotSchema = z.email("Invalid email");
 
@@ -29,6 +30,7 @@ export function ForgotPassword() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     const result = forgotSchema.safeParse(email);
 
@@ -44,6 +46,7 @@ export function ForgotPassword() {
 
     try {
       await API.handleForgotPassword(email);
+      router.push(`/reset-password?email=${email}`);
     } catch (err: any) {
       console.log(err);
       const message =
@@ -52,6 +55,8 @@ export function ForgotPassword() {
         "Something went wrong";
 
       setErrors({ ...errors, general: message });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,8 +80,11 @@ export function ForgotPassword() {
         {errors.general && (
           <span className="text-red-600 mr-auto">{errors.general}</span>
         )}
-        <button className="bg-primary text-bg border py-2.5 w-80 px-5 font-semibold border-primary text-xl rounded-xl cursor-pointer hover:bg-transparent hover:text-primary transition duration-300">
-          Send
+        <button
+          disabled={loading}
+          className="bg-primary text-bg border py-2.5 w-80 px-5 font-semibold border-primary text-xl rounded-xl cursor-pointer hover:bg-transparent hover:text-primary transition duration-300"
+        >
+          {loading ? "Sending..." : "Send"}
         </button>
       </form>
     </div>

@@ -1,7 +1,9 @@
 "use client";
 import {
   createContext,
+  Dispatch,
   ReactNode,
+  SetStateAction,
   useContext,
   useEffect,
   useState,
@@ -23,6 +25,7 @@ interface User {
 interface UserContext {
   user: User | null;
   refreshUser: () => Promise<void>;
+  setUser: Dispatch<SetStateAction<User | null>>;
 }
 
 const userContext = createContext<UserContext | undefined>(undefined);
@@ -57,7 +60,7 @@ export default function UserProvider({ children }: UserProviderProps) {
   }
 
   return (
-    <userContext.Provider value={{ user, refreshUser }}>
+    <userContext.Provider value={{ user, refreshUser, setUser }}>
       {children}
     </userContext.Provider>
   );

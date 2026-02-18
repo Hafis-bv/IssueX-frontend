@@ -123,6 +123,12 @@ export function LoginForm() {
               </span>
             </div>
           </label>
+          <Link
+            className="mr-auto text-primary underline font-medium"
+            href="/forgot-password"
+          >
+            Forgot password?
+          </Link>
           {errors.general && (
             <span className="text-red-600 mr-auto">{errors.general}</span>
           )}

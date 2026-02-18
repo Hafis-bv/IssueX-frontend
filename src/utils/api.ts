@@ -1,5 +1,6 @@
 import { ContactFormData } from "@/schemas/contact";
 import { LoginFormData } from "@/schemas/login";
+import { ResetPasswordState } from "@/schemas/resetPassword";
 import axios, { AxiosInstance } from "axios";
 
 class Api {
@@ -62,6 +63,32 @@ class Api {
         },
       );
 
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
+  async handleLogout() {
+    try {
+      const res = await this.client.post(
+        "/auth/logout",
+        {},
+        { withCredentials: true },
+      );
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
+  async handleResetPassword(formData: ResetPasswordState) {
+    try {
+      const res = await this.client.post("/auth/reset-password", formData, {
+        withCredentials: true,
+      });
       return res.data;
     } catch (err) {
       console.log(err);
