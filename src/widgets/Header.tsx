@@ -40,7 +40,7 @@ export const Header = () => {
   if (!user) return null;
 
   return (
-    <header className="py-5 px-10 bg-[#0d1117]">
+    <header className="py-5 px-10 bg-[#03050C]">
       <Container className="flex justify-between items-center">
         <Link href="/">IssueX</Link>
         <div>

@@ -39,6 +39,7 @@ export default function UserProvider({ children }: UserProviderProps) {
     try {
       const res = await API.handleMe();
       setUser(res.user);
+      return res.user;
     } catch (e: any) {
       console.log(e);
       setUser(null);
@@ -52,7 +53,14 @@ export default function UserProvider({ children }: UserProviderProps) {
   }
 
   useEffect(() => {
-    refreshUser();
+    (async () => {
+      const me = await refreshUser();
+      if (!me) return;
+
+      // тут уже можно грузить проекты
+      // const projects = await API.handleAllProjects();
+      // setProjects(projects);
+    })();
   }, []);
 
   if (isLoading) {

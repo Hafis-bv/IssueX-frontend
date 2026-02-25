@@ -95,6 +95,62 @@ class Api {
       throw err;
     }
   }
+
+  async handleAllProjects() {
+    try {
+      const res = await this.client.get("/projects", {
+        withCredentials: true,
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
+  async handleCreateProject() {
+    try {
+      const res = await this.client.post(
+        "/projects",
+        {},
+        {
+          withCredentials: true,
+        },
+      );
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
+  async handleDeleteProject(id: string) {
+    try {
+      const res = await this.client.delete(`/projects/${id}`, {
+        withCredentials: true,
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
+  async handleUpdateProject(id: string) {
+    try {
+      const res = await this.client.patch(
+        `/projects/${id}`,
+        {},
+        {
+          withCredentials: true,
+        },
+      );
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
 }
 
 const API = new Api();
