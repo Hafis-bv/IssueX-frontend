@@ -108,15 +108,11 @@ class Api {
     }
   }
 
-  async handleCreateProject() {
+  async handleCreateProject(name: { name: string }) {
     try {
-      const res = await this.client.post(
-        "/projects",
-        {},
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await this.client.post("/projects", name, {
+        withCredentials: true,
+      });
       return res.data;
     } catch (err) {
       console.log(err);
