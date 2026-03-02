@@ -132,11 +132,11 @@ class Api {
     }
   }
 
-  async handleUpdateProject(id: string) {
+  async handleUpdateProject(id: string, name: string) {
     try {
       const res = await this.client.patch(
         `/projects/${id}`,
-        {},
+        { name },
         {
           withCredentials: true,
         },

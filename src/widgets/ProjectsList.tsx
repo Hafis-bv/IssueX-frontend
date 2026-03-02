@@ -14,6 +14,8 @@ export default function ProjectsList() {
   const [creatingProjectId, setCreatingProjectId] = useState<string | null>(
     null,
   );
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [newName, setNewName] = useState<string>("");
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -38,9 +40,30 @@ export default function ProjectsList() {
     setCreatingProjectId(tempId);
   };
 
-  const deleteProject = async () => {};
+  const deleteProject = async (id: string) => {
+    try {
+      await API.handleDeleteProject(id);
+      setProjects(projects.filter((project) => project.id !== id));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  const updateProject = async () => {};
+  const updateProject = async (id: string) => {
+    try {
+      if (!newName.trim()) return;
+      await API.handleUpdateProject(id, newName);
+      setProjects(
+        projects.map((project) =>
+          project.id === id ? { ...project, name: newName } : project,
+        ),
+      );
+      setEditingId(null);
+      setNewName("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (loading) return <CustomLoading />;
 
@@ -49,6 +72,7 @@ export default function ProjectsList() {
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-3xl font-semibold text-white mb-6">Projects</h1>
         <button
+          disabled={Boolean(creatingProjectId)}
           onClick={addTempProject}
           className="bg-primary py-2 px-8 rounded-xl cursor-pointer"
         >
@@ -110,17 +134,35 @@ export default function ProjectsList() {
                       }
                     }}
                   />
+                ) : editingId === project.id ? (
+                  <input
+                    autoFocus
+                    className="border border-gray-800 text-black py-1 px-2 rounded-md outline-none"
+                    type="text"
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") updateProject(project.id);
+                      if (e.key === "Escape") setEditingId(null);
+                    }}
+                  />
                 ) : (
-                  <span className="text-gray-800 font-medium">
+                  <span className="text-gray-800 font-medium truncate max-w-50">
                     {project.name}
                   </span>
                 )}
               </div>
               <div className="flex items-center gap-2 text-black">
-                <span>
+                <span
+                  className="cursor-pointer"
+                  onClick={() => deleteProject(project.id)}
+                >
                   <GrClose size={20} />
                 </span>
-                <span>
+                <span
+                  onClick={() => setEditingId(project.id)}
+                  className="cursor-pointer"
+                >
                   <MdEdit size={20} />
                 </span>
                 <span className="text-gray-400 text-sm">
