@@ -1,69 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
-import API from "@/utils/api";
 import { CustomLoading } from "@/components/CustomLoading";
-import { Project } from "@/types/project";
-import { GrClose } from "react-icons/gr";
-import { MdEdit } from "react-icons/md";
+import { ProjectCard } from "./ProjectCard";
+import { useProjects } from "@/hooks/useProjects";
 
 export default function ProjectsList() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const [creatingProjectId, setCreatingProjectId] = useState<string | null>(
-    null,
-  );
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [newName, setNewName] = useState<string>("");
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const data = await API.handleAllProjects();
-        setProjects(data);
-        setError(null);
-      } catch (err: any) {
-        console.error("Error fetching projects:", err);
-        setError(err.message || "Failed to fetch projects.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
-
-  const addTempProject = () => {
-    const tempId = "temp-" + Date.now();
-    setProjects((prev) => [{ id: tempId, name: "" }, ...prev]);
-    setCreatingProjectId(tempId);
-  };
-
-  const deleteProject = async (id: string) => {
-    try {
-      await API.handleDeleteProject(id);
-      setProjects(projects.filter((project) => project.id !== id));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const updateProject = async (id: string) => {
-    try {
-      if (!newName.trim()) return;
-      await API.handleUpdateProject(id, newName);
-      setProjects(
-        projects.map((project) =>
-          project.id === id ? { ...project, name: newName } : project,
-        ),
-      );
-      setEditingId(null);
-      setNewName("");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { projects, setProjects, loading, error, creatingProjectId, setCreatingProjectId, editingId, setEditingId, newName, setNewName, addTempProject, deleteProject, updateProject } = useProjects();
 
   if (loading) return <CustomLoading />;
 
@@ -93,83 +34,19 @@ export default function ProjectsList() {
       ) : (
         <ul className="space-y-2">
           {projects.map((project) => (
-            <li
-              key={project.id}
-              className="flex items-center justify-between bg-white shadow-sm rounded-md p-4 hover:shadow-md transition-shadow duration-200"
-            >
-              <div className="flex items-center gap-3">
-                <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                {creatingProjectId === project.id ? (
-                  <input
-                    autoFocus
-                    className="border border-gray-800 text-black py-1 px-2 rounded-md outline-none"
-                    type="text"
-                    onKeyDown={async (e) => {
-                      if (e.key === "Enter") {
-                        const name = (
-                          e.target as HTMLInputElement
-                        ).value.trim();
-                        if (!name) return;
-
-                        try {
-                          const { project } = await API.handleCreateProject({
-                            name,
-                          });
-
-                          setProjects((prev) =>
-                            prev.map((p) =>
-                              p.id === creatingProjectId ? project : p,
-                            ),
-                          );
-
-                          setCreatingProjectId(null);
-                        } catch (err) {
-                          console.log(err);
-                        }
-                      } else if (e.key === "Escape") {
-                        setProjects((prev) =>
-                          prev.filter((p) => p.id !== project.id),
-                        );
-                        setCreatingProjectId(null);
-                      }
-                    }}
-                  />
-                ) : editingId === project.id ? (
-                  <input
-                    autoFocus
-                    className="border border-gray-800 text-black py-1 px-2 rounded-md outline-none"
-                    type="text"
-                    value={newName}
-                    onChange={(e) => setNewName(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") updateProject(project.id);
-                      if (e.key === "Escape") setEditingId(null);
-                    }}
-                  />
-                ) : (
-                  <span className="text-gray-800 font-medium truncate max-w-50">
-                    {project.name}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2 text-black">
-                <span
-                  className="cursor-pointer"
-                  onClick={() => deleteProject(project.id)}
-                >
-                  <GrClose size={20} />
-                </span>
-                <span
-                  onClick={() => setEditingId(project.id)}
-                  className="cursor-pointer"
-                >
-                  <MdEdit size={20} />
-                </span>
-                <span className="text-gray-400 text-sm">
-                  #{project.id.slice(0, 6)}
-                </span>
-              </div>
-            </li>
+            <ProjectCard 
+              key={project.id} 
+              project={project} 
+              setProjects={setProjects} 
+              creatingProjectId={creatingProjectId} 
+              setCreatingProjectId={setCreatingProjectId} 
+              editingId={editingId} 
+              setEditingId={setEditingId} 
+              newName={newName} 
+              setNewName={setNewName}
+              deleteProject={deleteProject}
+              updateProject={updateProject} 
+              />
           ))}
         </ul>
       )}
