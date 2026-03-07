@@ -4,7 +4,21 @@ import { ProjectCard } from "./ProjectCard";
 import { useProjects } from "@/hooks/useProjects";
 
 export default function ProjectsList() {
-  const { projects, setProjects, loading, error, creatingProjectId, setCreatingProjectId, editingId, setEditingId, newName, setNewName, addTempProject, deleteProject, updateProject } = useProjects();
+  const {
+    projects,
+    setProjects,
+    loading,
+    error,
+    creatingProjectId,
+    setCreatingProjectId,
+    editingId,
+    setEditingId,
+    newName,
+    setNewName,
+    addTempProject,
+    deleteProject,
+    updateProject,
+  } = useProjects();
 
   if (loading) return <CustomLoading />;
 
@@ -34,19 +48,19 @@ export default function ProjectsList() {
       ) : (
         <ul className="space-y-2">
           {projects.map((project) => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
-              setProjects={setProjects} 
-              creatingProjectId={creatingProjectId} 
-              setCreatingProjectId={setCreatingProjectId} 
-              editingId={editingId} 
-              setEditingId={setEditingId} 
-              newName={newName} 
+            <ProjectCard
+              key={project.id}
+              project={project}
+              setProjects={setProjects}
+              creatingProjectId={creatingProjectId}
+              setCreatingProjectId={setCreatingProjectId}
+              editingId={editingId}
+              setEditingId={setEditingId}
+              newName={newName}
               setNewName={setNewName}
               deleteProject={deleteProject}
-              updateProject={updateProject} 
-              />
+              updateProject={updateProject}
+            />
           ))}
         </ul>
       )}

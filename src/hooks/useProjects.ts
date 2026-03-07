@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/userContext";
 import { Project } from "@/types/project";
 import API from "@/utils/api";
 import { useEffect, useState } from "react";
@@ -11,12 +12,14 @@ export const useProjects = () => {
   );
   const [editingId, setEditingId] = useState<string | null>(null);
   const [newName, setNewName] = useState<string>("");
+  const { user } = useAuth();
 
   // Load all projects from database
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const data = await API.handleAllProjects();
+        if (!user) return;
+        const data = await API.handleUserProject(user.id);
         setProjects(data);
         setError(null);
       } catch (err: any) {
@@ -64,5 +67,19 @@ export const useProjects = () => {
     }
   };
 
-  return { projects, setProjects, loading, error, creatingProjectId, setCreatingProjectId, editingId, setEditingId, newName, setNewName, addTempProject, deleteProject, updateProject };
-}
+  return {
+    projects,
+    setProjects,
+    loading,
+    error,
+    creatingProjectId,
+    setCreatingProjectId,
+    editingId,
+    setEditingId,
+    newName,
+    setNewName,
+    addTempProject,
+    deleteProject,
+    updateProject,
+  };
+};

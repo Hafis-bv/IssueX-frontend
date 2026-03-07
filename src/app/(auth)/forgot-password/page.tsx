@@ -1,5 +1,5 @@
-import { ForgotPassword } from "@/widgets/ForgotPassword";
 import { Metadata } from "next";
+import { ForgotPassword } from "../widgets/ForgotPassword";
 
 export const metadata: Metadata = {
   title: "Forgot Password",

@@ -1,5 +1,5 @@
-import { LoginForm } from "@/widgets/LoginForm";
 import { Metadata } from "next";
+import { LoginForm } from "../widgets/LoginForm";
 
 export const metadata: Metadata = {
   title: "Login",

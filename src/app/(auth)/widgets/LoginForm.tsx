@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Input } from "../components/Input";
+import { Input } from "../../../components/Input";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ErrorLoginState, LoginFormData, loginSchema } from "@/schemas/login";
 import { z } from "zod";

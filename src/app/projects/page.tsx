@@ -1,5 +1,5 @@
-import ProjectsList from "@/widgets/ProjectsList";
 import { Metadata } from "next";
+import ProjectsList from "./widgets/ProjectsList";
 
 export const metadata: Metadata = {
   title: "Projects",

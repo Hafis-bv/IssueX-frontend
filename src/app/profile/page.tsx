@@ -1,5 +1,5 @@
-import Profile from "@/widgets/Profile";
 import { Metadata } from "next";
+import Profile from "./widgets/Profile";
 
 export const metadata: Metadata = {
   title: "Profile",
