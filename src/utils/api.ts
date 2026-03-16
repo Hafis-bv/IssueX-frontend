@@ -163,6 +163,20 @@ class Api {
       throw err;
     }
   }
+
+  async hadleCreateTask(body: {
+    title: string;
+    description: string;
+    userId: string;
+    projectId: string;
+  }) {
+    try {
+      const res = await this.client.post(`/tasks`, {});
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
 }
 
 const API = new Api();

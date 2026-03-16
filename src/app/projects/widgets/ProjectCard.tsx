@@ -6,7 +6,6 @@ import { GrClose } from "react-icons/gr";
 import { MdEdit } from "react-icons/md";
 import { Dispatch, SetStateAction, useCallback, useMemo } from "react";
 import { useAuth } from "@/context/userContext";
-import { getRandomColor } from "@/utils/getRandomColor";
 
 interface ProjectCardProps {
   project: Project;
@@ -34,16 +33,10 @@ export const ProjectCard = ({
   updateProject,
 }: ProjectCardProps) => {
   const { user } = useAuth();
-  const color = useMemo(() => {
-    return getRandomColor();
-  }, []);
   return (
     <li className="flex items-center justify-between bg-white shadow-sm rounded-md p-4 hover:shadow-md transition-shadow duration-200">
       <div className="flex items-center gap-3">
-        <span
-          className="w-3 h-3 rounded-full"
-          style={{ backgroundColor: color }}
-        ></span>
+        <span className="w-3 h-3 rounded-full bg-primary"></span>
         {creatingProjectId === project.id ? (
           <input
             autoFocus
