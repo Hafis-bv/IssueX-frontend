@@ -2,6 +2,7 @@
 import { CustomLoading } from "@/components/CustomLoading";
 import { ProjectCard } from "./ProjectCard";
 import { useProjects } from "@/hooks/useProjects";
+import { useState } from "react";
 
 export default function ProjectsList() {
   const {
@@ -20,19 +21,34 @@ export default function ProjectsList() {
     updateProject,
   } = useProjects();
 
+  const [searchValue, setSearchValue] = useState("");
+
+  const filteredProjects = projects.filter((p) =>
+    p.name.toLowerCase().includes(searchValue.toLowerCase()),
+  );
+
   if (loading) return <CustomLoading />;
 
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-3xl font-semibold text-white mb-6">Projects</h1>
-        <button
-          disabled={Boolean(creatingProjectId)}
-          onClick={addTempProject}
-          className="bg-primary py-2 px-8 rounded-xl cursor-pointer"
-        >
-          Add new project
-        </button>
+        <div className="flex items-center gap-4">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="bg-gray-800 p-2 rounded-2xl"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
+          <button
+            disabled={Boolean(creatingProjectId)}
+            onClick={addTempProject}
+            className="bg-primary py-2 px-8 rounded-xl cursor-pointer"
+          >
+            Add new project
+          </button>
+        </div>
       </div>
 
       {error && (
@@ -41,13 +57,13 @@ export default function ProjectsList() {
         </div>
       )}
 
-      {projects.length === 0 && !error ? (
+      {filteredProjects.length === 0 && !error ? (
         <div className="text-gray-500 text-center py-10">
           No projects available.
         </div>
       ) : (
         <ul className="space-y-2">
-          {projects.map((project) => (
+          {filteredProjects.map((project) => (
             <ProjectCard
               key={project.id}
               project={project}
