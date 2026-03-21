@@ -10,6 +10,7 @@ import { setAuthCookie } from "@/utils/auth-cookie";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/userContext";
+import { Button } from "@/components/Button";
 
 export function LoginForm() {
   const [formData, setFormData] = useState<LoginFormData>({
@@ -132,12 +133,12 @@ export function LoginForm() {
           {errors.general && (
             <span className="text-red-600 mr-auto">{errors.general}</span>
           )}
-          <button
+          <Button
+            className="border border-transparent xl:hover:border-primary xl:hover:bg-transparent xl:hover:text-primary transition-all duration-300  p-3 col-span-2 font-medium"
             disabled={loading}
-            className="rounded-2xl bg-primary border border-transparent xl:hover:border-primary xl:hover:bg-transparent xl:hover:text-primary transition-all duration-300 p-3 col-span-2 font-medium cursor-pointer"
           >
             {loading ? "Signing in..." : "Sign In"}
-          </button>
+          </Button>
         </form>
         <div className="text-center mt-4">
           <p className="text-gray-400">

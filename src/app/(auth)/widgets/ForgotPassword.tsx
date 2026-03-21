@@ -5,6 +5,7 @@ import API from "@/utils/api";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/Button";
 
 interface ErrorState {
   email: string | null;
@@ -80,12 +81,12 @@ export function ForgotPassword() {
         {errors.general && (
           <span className="text-red-600 mr-auto">{errors.general}</span>
         )}
-        <button
+        <Button
+          className="text-bg max-w-[300px] border py-2.5 w-80 px-5 font-semibold border-primary text-xl rounded-xl hover:bg-transparent hover:text-primary transition duration-300"
           disabled={loading}
-          className="bg-primary text-bg border py-2.5 w-80 px-5 font-semibold border-primary text-xl rounded-xl cursor-pointer hover:bg-transparent hover:text-primary transition duration-300"
         >
           {loading ? "Sending..." : "Send"}
-        </button>
+        </Button>
       </form>
     </div>
   );

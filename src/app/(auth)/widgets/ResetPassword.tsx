@@ -6,6 +6,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { z } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ResetPasswordState, resetSchema } from "@/schemas/resetPassword";
+import { Button } from "@/components/Button";
 
 interface ResetErrorsState {
   otp: string | null;
@@ -123,12 +124,12 @@ export function ResetPassword() {
           <span className="text-red-600 mr-auto">{resetErrors.general}</span>
         )}
 
-        <button
+        <Button
           disabled={isSubmitting}
-          className="bg-primary text-bg border py-2.5 w-80 px-5 font-semibold border-primary text-xl rounded-xl cursor-pointer hover:bg-transparent hover:text-primary transition duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+          className="text-bg border max-w-[300px] py-2.5 w-80 px-5 font-semibold border-primary text-xl hover:bg-transparent hover:text-primary transition duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "Resetting..." : "Reset password"}
-        </button>
+        </Button>
       </form>
     </div>
   );

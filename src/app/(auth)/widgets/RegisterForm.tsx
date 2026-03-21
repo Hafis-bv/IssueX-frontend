@@ -10,6 +10,7 @@ import { setAuthCookie } from "@/utils/auth-cookie";
 import { useRouter } from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAuth } from "@/context/userContext";
+import { Button } from "@/components/Button";
 
 export function RegisterForm() {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -159,12 +160,12 @@ export function RegisterForm() {
           {errors.general && (
             <span className="text-red-600 mr-auto">{errors.general}</span>
           )}
-          <button
+          <Button
             disabled={loading}
             className="rounded-2xl bg-primary border border-transparent xl:hover:border-primary xl:hover:bg-transparent xl:hover:text-primary transition-all duration-300 p-3 col-span-2 font-medium cursor-pointer"
           >
             {loading ? "Signing up..." : "Sign Up"}
-          </button>
+          </Button>
         </form>
         <div className="text-center mt-4">
           <p className="text-gray-400">

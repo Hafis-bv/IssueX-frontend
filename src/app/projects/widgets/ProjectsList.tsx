@@ -3,6 +3,7 @@ import { CustomLoading } from "@/components/CustomLoading";
 import { ProjectCard } from "./ProjectCard";
 import { useProjects } from "@/hooks/useProjects";
 import { useState } from "react";
+import { Button } from "@/components/Button";
 
 export default function ProjectsList() {
   const {
@@ -41,13 +42,13 @@ export default function ProjectsList() {
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
-          <button
+          <Button
             disabled={Boolean(creatingProjectId)}
             onClick={addTempProject}
-            className="bg-primary py-2 px-8 rounded-xl cursor-pointer"
+            className="py-2 px-8"
           >
             Add new project
-          </button>
+          </Button>
         </div>
       </div>
 

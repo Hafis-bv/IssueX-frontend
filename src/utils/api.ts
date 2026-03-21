@@ -167,11 +167,14 @@ class Api {
   async hadleCreateTask(body: {
     title: string;
     description: string;
-    userId: string;
+    assigneeId: string;
     projectId: string;
   }) {
     try {
-      const res = await this.client.post(`/tasks`, {});
+      const res = await this.client.post(`/tasks`, body, {
+        withCredentials: true,
+      });
+      return res.data;
     } catch (err) {
       console.log(err);
       throw err;

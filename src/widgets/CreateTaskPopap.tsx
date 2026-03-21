@@ -1,8 +1,32 @@
+"use client";
+
+import { Button } from "@/components/Button";
+import { useAuth } from "@/context/userContext";
+import API from "@/utils/api";
+import { useState } from "react";
+
 interface CreateTaskPopapProps {
   onClose: () => void;
 }
 
 export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
+  const { user } = useAuth();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  async function handleSubmit() {
+    if (!user) return;
+
+    await API.hadleCreateTask({
+      title,
+      description,
+      assigneeId: user.id,
+      projectId: "9e00b471-7897-4c31-8041-ee3c74ef06d5",
+    });
+
+    alert("Abbas lox");
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
       <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0f0f12] shadow-2xl">
@@ -22,6 +46,8 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
               Title
             </label>
             <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               type="text"
               placeholder="Task title..."
               className="w-full rounded-xl border border-white/10 bg-[#15151a] px-3 py-2.5 text-sm text-white placeholder:text-neutral-500 outline-none transition focus:border-[#5e6ad2] focus:ring-2 focus:ring-[#5e6ad2]/20"
@@ -33,6 +59,8 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
               Description
             </label>
             <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="Task description..."
               rows={5}
               className="w-full resize-none rounded-xl border border-white/10 bg-[#15151a] px-3 py-2.5 text-sm text-white placeholder:text-neutral-500 outline-none transition focus:border-[#5e6ad2] focus:ring-2 focus:ring-[#5e6ad2]/20"
@@ -47,9 +75,13 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
           >
             Cancel
           </button>
-          <button className="cursor-pointer rounded-lg bg-[#5e6ad2] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#6b77e0]">
+
+          <Button
+            onClick={handleSubmit}
+            className="!rounded-lg px-4 py-2 text-sm font-medium text-white transition hover:bg-[#6b77e0]"
+          >
             Create task
-          </button>
+          </Button>
         </div>
       </div>
     </div>
