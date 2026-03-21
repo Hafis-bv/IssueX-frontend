@@ -1,9 +1,9 @@
 "use client";
 import { CustomLoading } from "@/components/CustomLoading";
 import { ProjectCard } from "./ProjectCard";
-import { useProjects } from "@/hooks/useProjects";
 import { useState } from "react";
 import { Button } from "@/components/Button";
+import { useProjects } from "@/context/projectContext";
 
 export default function ProjectsList() {
   const {
