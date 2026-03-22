@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/Button";
+import { useProjects } from "@/context/projectContext";
 import { useAuth } from "@/context/userContext";
 import API from "@/utils/api";
 import { useState } from "react";
@@ -13,15 +14,17 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
   const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const { projects } = useProjects();
+  const [projectId, setProjectId] = useState("");
 
   async function handleSubmit() {
-    if (!user) return;
+    if (!user || !projectId) return;
 
     await API.hadleCreateTask({
       title,
       description,
       assigneeId: user.id,
-      projectId: "9e00b471-7897-4c31-8041-ee3c74ef06d5",
+      projectId: projectId,
     });
 
     alert("Abbas lox");
@@ -65,6 +68,25 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
               rows={5}
               className="w-full resize-none rounded-xl border border-white/10 bg-[#15151a] px-3 py-2.5 text-sm text-white placeholder:text-neutral-500 outline-none transition focus:border-[#5e6ad2] focus:ring-2 focus:ring-[#5e6ad2]/20"
             />
+          </div>
+
+          <div>
+            <label className="text-xs font-medium uppercase tracking-wide text-neutral-400">
+              Select project
+            </label>
+            <select
+              value={projectId}
+              onChange={(e) => setProjectId(e.target.value)}
+              className="w-full rounded-xl border border-white/10 bg-[#15151a] px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#5e6ad2] focus:ring-2 focus:ring-[#5e6ad2]/20 appearance-none cursor-pointer"
+            >
+              <option value="">Select project</option>
+
+              {projects.map((project) => (
+                <option key={project.id} value={project.id}>
+                  {project.name || "Untitled"}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
