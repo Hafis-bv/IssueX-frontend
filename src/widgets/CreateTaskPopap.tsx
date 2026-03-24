@@ -1,5 +1,6 @@
 "use client";
 
+// import { z } from "zod";
 import { Button } from "@/components/Button";
 import { useProjects } from "@/context/projectContext";
 import { useAuth } from "@/context/userContext";
@@ -16,6 +17,11 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
   const [description, setDescription] = useState("");
   const { projects } = useProjects();
   const [projectId, setProjectId] = useState("");
+  // const createTaskSchema = z.object({
+  //   title: z.string().min(1, "Title is required"),
+  //   description: z.string().min(1, "Description is required"),
+  //   projectId: z.string().uuid("Invalid project id"),
+  // });
 
   async function handleSubmit() {
     if (!user || !projectId) return;
@@ -26,8 +32,7 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
       assigneeId: user.id,
       projectId: projectId,
     });
-
-    alert("Abbas lox");
+    onClose();
   }
 
   return (

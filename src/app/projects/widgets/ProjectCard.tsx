@@ -34,13 +34,13 @@ export const ProjectCard = ({
 }: ProjectCardProps) => {
   const { user } = useAuth();
   return (
-    <li className="flex items-center justify-between bg-white shadow-sm rounded-md p-4 hover:shadow-md transition-shadow duration-200">
-      <div className="flex items-center gap-3">
-        <span className="w-3 h-3 rounded-full bg-primary"></span>
+    <li className="flex items-center justify-between bg-[#0d111a] border border-[#1a1d24] rounded-xl px-4 py-3 hover:bg-[#111622] hover:border-[#2a2f3a] transition-all duration-200">
+      <div className="flex items-center gap-3 min-w-0">
+        <span className="w-2.5 h-2.5 rounded-full bg-primary"></span>
         {creatingProjectId === project.id ? (
           <input
             autoFocus
-            className="border border-gray-800 text-black py-1 px-2 rounded-md outline-none"
+            className="border border-[#2a2f3a] bg-[#080b13] text-zinc-100 py-1.5 px-3 rounded-md outline-none placeholder:text-zinc-500"
             type="text"
             onKeyDown={async (e) => {
               if (e.key === "Enter") {
@@ -71,7 +71,7 @@ export const ProjectCard = ({
         ) : editingId === project.id ? (
           <input
             autoFocus
-            className="border border-gray-800 text-black py-1 px-2 rounded-md outline-none"
+            className="border border-[#2a2f3a] bg-[#080b13] text-zinc-100 py-1.5 px-3 rounded-md outline-none placeholder:text-zinc-500"
             type="text"
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
@@ -81,25 +81,26 @@ export const ProjectCard = ({
             }}
           />
         ) : (
-          <span className="text-gray-800 font-medium truncate max-w-50">
+          <span className="text-zinc-100 font-medium truncate max-w-50">
             {project.name}
           </span>
         )}
       </div>
-      <div className="flex items-center gap-2 text-black">
+
+      <div className="flex items-center gap-3 text-zinc-400">
         <span
-          className="cursor-pointer"
+          className="cursor-pointer hover:text-red-400 transition"
           onClick={() => deleteProject(project.id)}
         >
-          <GrClose size={20} />
+          <GrClose size={18} />
         </span>
         <span
           onClick={() => setEditingId(project.id)}
-          className="cursor-pointer"
+          className="cursor-pointer hover:text-white transition"
         >
-          <MdEdit size={20} />
+          <MdEdit size={18} />
         </span>
-        <span className="text-gray-400 text-sm">#{project.id.slice(0, 6)}</span>
+        <span className="text-zinc-500 text-xs">#{project.id.slice(0, 6)}</span>
       </div>
     </li>
   );

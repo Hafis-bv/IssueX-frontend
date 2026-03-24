@@ -40,15 +40,18 @@ export const Header = () => {
   if (!user) return null;
 
   return (
-    <header className="py-5 px-10 bg-[#03050C]">
+    <header className="py-4 px-10 bg-[#0b101b] border-b border-[#1a1d24]">
       <Container className="flex justify-between items-center">
-        <Link href="/">IssueX</Link>
+        <Link href="/" className="text-zinc-100 font-semibold tracking-wide">
+          IssueX
+        </Link>
+
         <div>
           {user ? (
             <div onClick={(e) => e.stopPropagation()} className="relative">
               <button
                 onClick={handleProfileMenu}
-                className="bg-primary font-semibold text-xl rounded-full w-10 h-10 flex items-center justify-center cursor-pointer"
+                className="bg-[#111622] border border-[#1a1d24] text-zinc-200 font-semibold text-sm rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-[#151a26] transition"
               >
                 {user.name.charAt(0).toUpperCase() || "U"}
               </button>
@@ -56,24 +59,25 @@ export const Header = () => {
               <AnimatePresence mode="wait">
                 {isProfileMenuOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: -10 }}
+                    initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="flex flex-col gap-2 absolute top-12 right-0 bg-[#333] w-30 rounded-md p-4"
+                    exit={{ opacity: 0, y: -8 }}
+                    className="flex flex-col gap-2 absolute top-12 right-0 bg-[#0d111a] border border-[#1a1d24] w-36 rounded-xl p-3 shadow-lg"
                   >
                     {headerLinks.map((link) => (
                       <Link
                         key={link.id}
                         href={link.href}
-                        className="hover:text-gray-300"
+                        className="text-sm text-zinc-300 hover:text-white px-2 py-1 rounded-md hover:bg-[#111622] transition"
                       >
                         {link.label}
                       </Link>
                     ))}
+
                     <button
                       onClick={handleUserLogout}
-                      className="border-t border-gray-500 pt-2 text-left font-bold tracking-[1px] cursor-pointer"
+                      className="border-t border-[#1a1d24] mt-2 pt-2 text-left text-sm text-red-400 hover:text-red-300 cursor-pointer"
                     >
                       Logout
                     </button>
@@ -82,7 +86,12 @@ export const Header = () => {
               </AnimatePresence>
             </div>
           ) : (
-            <Link href="/login">Login</Link>
+            <Link
+              href="/login"
+              className="text-sm text-zinc-300 hover:text-white transition"
+            >
+              Login
+            </Link>
           )}
         </div>
       </Container>

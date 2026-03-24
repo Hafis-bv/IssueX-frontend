@@ -180,6 +180,18 @@ class Api {
       throw err;
     }
   }
+
+  async handleUserTask(id: string) {
+    try {
+      const res = await this.client.get(`/tasks/user/${id}`, {
+        withCredentials: true,
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
 }
 
 const API = new Api();

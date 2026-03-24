@@ -1,23 +1,35 @@
 import { Container } from "@/components/Container";
+import { TaskCard } from "@/components/TaskCard";
 
 export const TaskList = () => {
   return (
-    <Container className="grid grid-cols-4 gap-8 mt-10">
-      <div className="flex flex-col gap-5">
-        <h1 className="border border-gray-300 rounded-md p-4 text-xl tracking-[3px]">Todo</h1>
-        <div className="border border-gray-300 h-150 rounded-md p-4"></div>
+    <Container className="grid grid-cols-4 gap-6 mt-10 bg-[#080b13]">
+      <div className="flex flex-col gap-4">
+        <h1 className="border border-[#1a1d24] bg-[#0d111a] rounded-xl px-4 py-3 text-sm font-medium tracking-wide text-zinc-200">
+          To do
+        </h1>
+        <TaskCard status="TODO" />
       </div>
-      <div className="flex flex-col gap-5">
-        <h1 className="border border-gray-300 rounded-md p-4 text-xl tracking-[3px]">In Progress</h1>
-        <div className="border border-gray-300 h-150 rounded-md p-4"></div>
+
+      <div className="flex flex-col gap-4">
+        <h1 className="border border-[#1a1d24] bg-[#0d111a] rounded-xl px-4 py-3 text-sm font-medium tracking-wide text-zinc-200">
+          In Progress
+        </h1>
+        <TaskCard status="IN_PROGRESS" />
       </div>
-      <div className="flex flex-col gap-5">
-        <h1 className="border border-gray-300 rounded-md p-4 text-xl tracking-[3px]">In Review</h1>
-        <div className="border border-gray-300 h-150 rounded-md p-4"></div>
+
+      <div className="flex flex-col gap-4">
+        <h1 className="border border-[#1a1d24] bg-[#0d111a] rounded-xl px-4 py-3 text-sm font-medium tracking-wide text-zinc-200">
+          In Review
+        </h1>
+        <TaskCard status="IN_REVIEW" />
       </div>
-      <div className="flex flex-col gap-5">
-        <h1 className="border border-gray-300 rounded-md p-4 text-xl tracking-[3px]">Done</h1> 
-        <div className="border border-gray-300 h-150 rounded-md p-4"></div>
+
+      <div className="flex flex-col gap-4">
+        <h1 className="border border-[#1a1d24] bg-[#0d111a] rounded-xl px-4 py-3 text-sm font-medium tracking-wide text-zinc-200">
+          Done
+        </h1>
+        <TaskCard status="DONE" />
       </div>
     </Container>
   );
