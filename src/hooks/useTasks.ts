@@ -30,7 +30,7 @@ export const useTasks = () => {
       }
     }
     fetchTasks();
-  }, []);
+  }, [tasks]);
   return {
     tasks,
     error,

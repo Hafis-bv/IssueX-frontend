@@ -37,12 +37,12 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0f0f12] shadow-2xl">
-        <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-          <h1 className="text-sm font-medium text-white">Create task</h1>
+      <div className="w-full max-w-md rounded-2xl border border-[#1a1d24] bg-[#0d111a]">
+        <div className="flex items-center justify-between border-b border-[#1a1d24] px-5 py-4">
+          <h1 className="text-sm font-medium text-zinc-100">Create task</h1>
           <button
             onClick={onClose}
-            className="cursor-pointer rounded-md px-2 p-1 text-neutral-400 transition hover:bg-white/5 hover:text-white"
+            className="cursor-pointer rounded-md px-2 p-1 text-zinc-400 transition hover:bg-[#111622] hover:text-white"
           >
             ✕
           </button>
@@ -50,7 +50,7 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
 
         <div className="space-y-4 p-5">
           <div className="space-y-2">
-            <label className="text-xs font-medium uppercase tracking-wide text-neutral-400">
+            <label className="text-xs font-medium uppercase tracking-wide text-zinc-500">
               Title
             </label>
             <input
@@ -58,12 +58,12 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
               onChange={(e) => setTitle(e.target.value)}
               type="text"
               placeholder="Task title..."
-              className="w-full rounded-xl border border-white/10 bg-[#15151a] px-3 py-2.5 text-sm text-white placeholder:text-neutral-500 outline-none transition focus:border-[#5e6ad2] focus:ring-2 focus:ring-[#5e6ad2]/20"
+              className="w-full rounded-xl border border-[#1a1d24] bg-[#080b13] px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-medium uppercase tracking-wide text-neutral-400">
+            <label className="text-xs font-medium uppercase tracking-wide text-zinc-500">
               Description
             </label>
             <textarea
@@ -71,18 +71,18 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Task description..."
               rows={5}
-              className="w-full resize-none rounded-xl border border-white/10 bg-[#15151a] px-3 py-2.5 text-sm text-white placeholder:text-neutral-500 outline-none transition focus:border-[#5e6ad2] focus:ring-2 focus:ring-[#5e6ad2]/20"
+              className="w-full resize-none rounded-xl border border-[#1a1d24] bg-[#080b13] px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
           </div>
 
           <div>
-            <label className="text-xs font-medium uppercase tracking-wide text-neutral-400">
+            <label className="text-xs font-medium uppercase tracking-wide text-zinc-500">
               Select project
             </label>
             <select
               value={projectId}
               onChange={(e) => setProjectId(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-[#15151a] px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#5e6ad2] focus:ring-2 focus:ring-[#5e6ad2]/20 appearance-none cursor-pointer"
+              className="w-full rounded-xl border border-[#1a1d24] bg-[#080b13] px-3 py-2.5 text-sm text-zinc-100 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 appearance-none cursor-pointer"
             >
               <option value="">Select project</option>
 
@@ -95,17 +95,17 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-2 border-t border-white/10 px-5 py-4">
+        <div className="flex items-center justify-end gap-2 border-t border-[#1a1d24] px-5 py-4">
           <button
             onClick={onClose}
-            className="cursor-pointer rounded-lg border border-white/10 bg-transparent px-4 py-2 text-sm font-medium text-neutral-300 transition hover:bg-white/5 hover:text-white"
+            className="cursor-pointer rounded-lg border border-[#1a1d24] bg-transparent px-4 py-2 text-sm font-medium text-zinc-400 transition hover:bg-[#111622] hover:text-white"
           >
             Cancel
           </button>
 
           <Button
             onClick={handleSubmit}
-            className="!rounded-lg px-4 py-2 text-sm font-medium text-white transition hover:bg-[#6b77e0]"
+            className="!rounded-lg px-4 py-2 text-sm font-medium text-white transition hover:opacity-90"
           >
             Create task
           </Button>
