@@ -192,6 +192,36 @@ class Api {
       throw err;
     }
   }
+
+  async handleDeleteTask(id: string) {
+    try {
+      const res = await this.client.delete(`/tasks/${id}`, {
+        withCredentials: true,
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
+  async handleUpdateTask(
+    id: string,
+    body: {
+      title: string;
+      description: string;
+      status: string;
+    },
+  ) {
+    try {
+      const res = await this.client.patch(`/tasks/${id}`, body, {
+        withCredentials: true,
+      });
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 const API = new Api();

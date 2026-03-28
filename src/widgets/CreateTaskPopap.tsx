@@ -3,8 +3,8 @@
 // import { z } from "zod";
 import { Button } from "@/components/Button";
 import { useProjects } from "@/context/projectContext";
+import { useTasks } from "@/context/taskContext";
 import { useAuth } from "@/context/userContext";
-import API from "@/utils/api";
 import { useState } from "react";
 
 interface CreateTaskPopapProps {
@@ -13,6 +13,7 @@ interface CreateTaskPopapProps {
 
 export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
   const { user } = useAuth();
+  const { addTask } = useTasks();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { projects } = useProjects();
@@ -26,11 +27,10 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
   async function handleSubmit() {
     if (!user || !projectId) return;
 
-    await API.hadleCreateTask({
+    await addTask({
       title,
       description,
-      assigneeId: user.id,
-      projectId: projectId,
+      projectId,
     });
     onClose();
   }

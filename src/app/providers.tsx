@@ -1,6 +1,7 @@
 "use client";
 
 import ProjectProvider from "@/context/projectContext";
+import { TaskProvider } from "@/context/taskContext";
 import UserProvider from "@/context/userContext";
 import { ReactNode } from "react";
 
@@ -11,7 +12,9 @@ interface ProvidersProps {
 export default function Providers({ children }: ProvidersProps) {
   return (
     <UserProvider>
-      <ProjectProvider>{children}</ProjectProvider>
+      <ProjectProvider>
+        <TaskProvider>{children}</TaskProvider>
+      </ProjectProvider>
     </UserProvider>
   );
 }
