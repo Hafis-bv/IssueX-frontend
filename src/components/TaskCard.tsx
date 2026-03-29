@@ -37,8 +37,8 @@ export const TaskCard = ({ status }: TaskCardProps) => {
           className="group bg-[#0d111a] border border-[#1a1d24] rounded-xl p-4 transition-all duration-200 hover:bg-[#111622] hover:border-[#2a2f3a] cursor-pointer"
         >
           <div className="flex items-start justify-between gap-3">
-            <div className="flex-1">
-              <h1 className="text-sm font-medium text-zinc-100 mb-2 leading-snug">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-sm font-medium text-zinc-100 mb-2 leading-snug truncate max-w-65">
                 {task.title}
               </h1>
               <p className="text-xs text-zinc-400 mb-3">

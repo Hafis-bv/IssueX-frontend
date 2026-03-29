@@ -93,7 +93,16 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const updated = await API.handleUpdateTask(id, body);
 
-      setTasks((prev) => prev.map((t) => (t.id === id ? updated : t)));
+      setTasks((prev) =>
+        prev.map((t) =>
+          t.id === id
+            ? {
+                ...t,
+                ...updated.task,
+              }
+            : t,
+        ),
+      );
     } catch (err) {
       console.log(err);
     }
