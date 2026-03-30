@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Container } from "@/components/Container";
-import { CreateTaskPopap } from "./CreateTaskPopap";
+import { CreateTaskPopup } from "./CreateTaskPopup";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Button } from "@/components/Button";
 
@@ -19,7 +19,7 @@ export const NewTask = () => {
         Add task
       </Button>
 
-      {open && <CreateTaskPopap onClose={() => setOpen(false)} />}
+      {open && <CreateTaskPopup onClose={() => setOpen(false)} />}
     </Container>
   );
 };

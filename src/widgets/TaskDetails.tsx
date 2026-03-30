@@ -43,9 +43,10 @@ export const TaskDetails = ({ onClose, task }: TaskDetailsProps) => {
       console.log(err);
     }
   }
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 p-6">
-      <div className="w-3xl mx-auto rounded-2xl border border-[#1a1d24] bg-[#0d111a] p-6 space-y-6">
+      <div className="w-3xl mx-auto rounded-2xl border border-[#1a1d24] bg-[#0d111a] p-6 space-y-6 overflow-auto h-150">
         <div className="flex items-start justify-between">
           <div>
             {isEditing ? (
@@ -128,7 +129,7 @@ export const TaskDetails = ({ onClose, task }: TaskDetailsProps) => {
               className="w-full rounded-xl border border-[#1a1d24] bg-[#080b13] p-4 text-sm leading-relaxed text-zinc-300 outline-none"
             />
           ) : (
-            <div className="rounded-xl border border-[#1a1d24] bg-[#080b13] p-4 text-sm leading-relaxed text-zinc-300 wrap-break-words">
+            <div className="rounded-xl max-w-3xl border border-[#1a1d24] bg-[#080b13] p-4 text-sm leading-relaxed text-zinc-300 wrap-break-words">
               {description}
             </div>
           )}

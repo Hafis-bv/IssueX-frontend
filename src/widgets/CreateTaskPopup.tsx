@@ -1,31 +1,42 @@
 "use client";
 
-// import { z } from "zod";
 import { Button } from "@/components/Button";
 import { useProjects } from "@/context/projectContext";
 import { useTasks } from "@/context/taskContext";
-import { useAuth } from "@/context/userContext";
+import { taskSchema } from "@/schemas/task";
+import { TaskError } from "@/types/task";
 import { useState } from "react";
+import z from "zod";
 
-interface CreateTaskPopapProps {
+interface CreateTaskPopupProps {
   onClose: () => void;
 }
 
-export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
-  const { user } = useAuth();
+export const CreateTaskPopup = ({ onClose }: CreateTaskPopupProps) => {
   const { addTask } = useTasks();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { projects } = useProjects();
   const [projectId, setProjectId] = useState("");
-  // const createTaskSchema = z.object({
-  //   title: z.string().min(1, "Title is required"),
-  //   description: z.string().min(1, "Description is required"),
-  //   projectId: z.string().uuid("Invalid project id"),
-  // });
+  const [errors, setErrors] = useState<TaskError>({
+    title: null,
+    description: null,
+    projectId: null,
+  });
 
   async function handleSubmit() {
-    if (!user || !projectId) return;
+    const result = taskSchema.safeParse({ title, description, projectId });
+    if (!result.success) {
+      const flattened = z.flattenError(result.error);
+      const fieldErrors = flattened.fieldErrors;
+
+      setErrors({
+        title: fieldErrors.title?.[0] ?? null,
+        description: fieldErrors.description?.[0] ?? null,
+        projectId: fieldErrors.projectId?.[0] ?? null,
+      });
+      return;
+    }
 
     await addTask({
       title,
@@ -60,6 +71,9 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
               placeholder="Task title..."
               className="w-full rounded-xl border border-[#1a1d24] bg-[#080b13] px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
+            {errors.title && (
+              <span className="text-red-600 text-xs mt-1">{errors.title}</span>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -73,6 +87,11 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
               rows={5}
               className="w-full resize-none rounded-xl border border-[#1a1d24] bg-[#080b13] px-3 py-2.5 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
+            {errors.description && (
+              <span className="text-red-600 text-xs mt-1">
+                {errors.description}
+              </span>
+            )}
           </div>
 
           <div>
@@ -92,6 +111,11 @@ export const CreateTaskPopap = ({ onClose }: CreateTaskPopapProps) => {
                 </option>
               ))}
             </select>
+            {errors.projectId && (
+              <span className="text-red-600 text-xs mt-1">
+                {errors.projectId}
+              </span>
+            )}
           </div>
         </div>
 

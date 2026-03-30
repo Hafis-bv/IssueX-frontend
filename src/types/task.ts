@@ -7,3 +7,9 @@ export interface Task {
   status: string;
   title: string;
 }
+
+export interface TaskError {
+  title: string | null;
+  description: string | null;
+  projectId: string | null;
+}
