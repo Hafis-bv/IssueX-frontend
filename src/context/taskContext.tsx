@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { Task } from "@/types/task";
 import API from "@/utils/api";
 import { useAuth } from "@/context/userContext";
+import { toast } from "react-toastify";
 
 interface CreateTaskInput {
   title: string;
@@ -67,18 +68,21 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
         assigneeId: user.id,
       });
       setTasks([...tasks, task]);
+      toast.success("Task created successfully.");
     } catch (err) {
       console.log(err);
+      toast.error("Failed to create task.");
     }
   }
 
   async function deleteTask(id: string) {
     try {
       await API.handleDeleteTask(id);
-
       setTasks((prev) => prev.filter((t) => t.id !== id));
+      toast.success("Task deleted successfully.");
     } catch (err) {
       console.log(err);
+      toast.error("Failed to delete task.");
     }
   }
 
@@ -103,8 +107,10 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
             : t,
         ),
       );
+      toast.success("Task updated successfully.");
     } catch (err) {
       console.log(err);
+      toast.error("Failed to update task.");
     }
   }
 
