@@ -74,7 +74,7 @@ export function LoginForm() {
   const [show, setShow] = useState(false);
   return (
     <div className="grid xl:grid-cols-2 h-screen">
-      <div className="bg-primary/80"></div>
+      <div className="bg-primary/80 hidden xl:block"></div>
       <div className="flex flex-col items-center text-center gap-4 py-40 xl:px-0">
         <h1 className="text-4xl font-semibold tracking-[2px]">
           Sign In to Account

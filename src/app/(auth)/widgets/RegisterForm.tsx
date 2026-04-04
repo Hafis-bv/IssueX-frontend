@@ -77,7 +77,7 @@ export function RegisterForm() {
   };
   return (
     <div className="grid xl:grid-cols-2 h-screen">
-      <div className="bg-primary/80"></div>
+      <div className="bg-primary/80 hidden xl:block"></div>
       <div className="flex flex-col items-center text-center gap-4 py-40 xl:px-0">
         <h1 className="text-4xl font-semibold tracking-[2px]">
           Sign Up An Account
@@ -87,7 +87,7 @@ export function RegisterForm() {
         </p>
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-2 gap-6 sm:w-150 w-[90%] mt-8"
+          className="grid grid-cols-2 gap-6 w-[90%] sm:w-155 mt-8"
         >
           <label
             className="flex text-left col-span-2 sm:col-span-1 flex-col gap-2"

@@ -3,7 +3,7 @@ import { TaskCard } from "@/components/TaskCard";
 
 export const TaskList = () => {
   return (
-    <Container className="grid grid-cols-4 gap-6 mt-10 bg-[#080b13]">
+    <Container className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10 bg-[#080b13]">
       <div className="flex flex-col gap-4">
         <h1 className="border border-[#1a1d24] bg-[#0d111a] rounded-xl px-4 py-3 text-sm font-medium tracking-wide text-zinc-200">
           To do

@@ -48,7 +48,7 @@ export const CreateTaskPopup = ({ onClose }: CreateTaskPopupProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-2xl border border-[#1a1d24] bg-[#0d111a]">
+      <div className="w-full max-w-md rounded-2xl border border-[#1a1d24] bg-[#0d111a] mx-3">
         <div className="flex items-center justify-between border-b border-[#1a1d24] px-5 py-4">
           <h1 className="text-sm font-medium text-zinc-100">Create task</h1>
           <button

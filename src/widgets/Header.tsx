@@ -34,7 +34,6 @@ export const Header = () => {
     { id: 1, label: "Dashboard", href: "/" },
     { id: 2, label: "Projects", href: "/projects" },
     { id: 3, label: "Profile", href: "/profile" },
-    { id: 4, label: "Settings", href: "/settings" },
   ];
 
   if (!user) return null;
@@ -70,6 +69,7 @@ export const Header = () => {
                         key={link.id}
                         href={link.href}
                         className="text-sm text-zinc-300 hover:text-white px-2 py-1 rounded-md hover:bg-[#111622] transition"
+                        onClick={() => setIsProfileMenuOpen(false)}
                       >
                         {link.label}
                       </Link>

@@ -2,4 +2,5 @@
 
 @theme {
   --color-primary: #5b48ee;
+  --breakpoint-xs: 450px;
 }

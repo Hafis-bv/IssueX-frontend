@@ -32,20 +32,20 @@ export default function ProjectsList() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col items-center md:flex-row gap-5 justify-between mb-6">
         <h1 className="text-2xl font-semibold text-zinc-100">Projects</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col xs:flex-row items-center w-full xs:w-max gap-3">
           <input
             type="text"
             placeholder="Search..."
-            className="bg-[#0d111a] border border-[#1a1d24] text-zinc-100 placeholder:text-zinc-500 px-4 py-2.5 rounded-xl outline-none"
+            className="bg-[#0d111a] border border-[#1a1d24] text-zinc-100 w-full xs:w-max lg:w-100 placeholder:text-zinc-500 px-4 py-2.5 rounded-xl outline-none"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           />
           <Button
             disabled={Boolean(creatingProjectId)}
             onClick={addTempProject}
-            className="py-2.5 px-5 rounded-xl text-white transition hover:bg-transparent hover:border-primary hover:text-primary border border-transparent"
+            className="py-2.5 px-5 rounded-xl text-white transition hover:bg-transparent w-full xs:w-max hover:border-primary hover:text-primary border border-transparent"
           >
             Add new project
           </Button>
